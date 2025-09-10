@@ -1,3 +1,5 @@
+package InterviewPreparation;
+
 import java.util.*;
 
 public class AllSortingAlgorithm {
@@ -95,6 +97,53 @@ public class AllSortingAlgorithm {
 
     }
 
+    public static void countSort(int[] arr, int size) {
+        int max = 0;
+        for(int i : arr) max = max < i ? i : max;
+        int[] tem = new int[max+1];
+        for(int i : arr) tem[i] = ++tem[i];
+        int ind = 0;
+        for(int i=0;i<tem.length;i++){
+            while(tem[i]!=0) {
+                arr[ind++] = i;
+                tem[i] = --tem[i];
+            }
+        }
+    }
+
+
+    public static void countSortForRadix(int[] arr, int size, int exp) {
+        int[] count = new int[10];
+        int[] outputTem = new int[size];
+        for(int i : arr){
+            int particularElement = (i/exp)%(10);
+            count[particularElement]++;
+        }
+
+        for(int i=0; i<9; i++){
+            count[i+1]+=count[i];
+        }
+
+        for(int i=size-1; i>=0; i--) {
+            outputTem[count[(arr[i]/exp)%10]-1] = arr[i];
+            count[(arr[i]/exp)%10]--;
+        }
+        for(int i=0;i<size;i++) arr[i] = outputTem[i];
+    }
+
+    public static void radixSort(int[] arr, int size) {
+        int max = 0;
+        for(int i : arr) max = max < i ? i : max;
+        int digitsPosition = 10;
+        int exp = 1;
+        while(max%digitsPosition > 0){
+            countSortForRadix(arr, size, exp);
+            exp*=10;
+            max/=10;
+        }
+    }
+
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int size = sc.nextInt();
@@ -103,7 +152,7 @@ public class AllSortingAlgorithm {
         String[] str = sc.nextLine().split(" ");
         int ind = 0;
         for(String i : str) arr[ind++] = Integer.parseInt(i);
-        mergeSort(arr,0,size-1,size);
+        radixSort(arr,size);
         System.out.println(Arrays.toString(arr));
         sc.close();
     }
