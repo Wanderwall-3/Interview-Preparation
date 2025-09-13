@@ -39,7 +39,7 @@ public class AllSortingAlgorithm {
         int j = start-1;
         for(int i=start; i < end; i++) {
             if(arr[i]<=arr[pivotPos]) {
-                System.out.println(arr[i]+" "+arr[j]);
+                // System.out.println(arr[i]+" "+arr[j]);
                 j++;
                 int tem = arr[i];
                 arr[i] = arr[j];
@@ -51,7 +51,7 @@ public class AllSortingAlgorithm {
         arr[j+1] = arr[pivotPos];
         arr[pivotPos]=tem;
         pivotPos = j+1;
-        System.out.println(Arrays.toString(arr));
+        // System.out.println(Arrays.toString(arr));
         quickSort(arr, start, pivotPos-1);
         quickSort(arr, pivotPos+1, end);
     }
